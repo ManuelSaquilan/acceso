@@ -1,0 +1,62 @@
+{% extends "base_template.html" %}
+{% block content %}
+
+   
+<div class="card">
+    <div class="card-header">
+        <h4  style="text-align: center;">EDITAR INVITADO</h4>
+    </div>
+    <div class="card-body">
+
+        <form action="{% url 'eventos:invitado_updaterecord' invitado.idInvitado %}" method="post" >
+            {% csrf_token %}
+            <!--{{form.as_p}}-->
+            <!-- Usa form.erros para detectar el error en los campos -->
+            <!--{{ form.errors }}-->
+            
+            <div class="label-input">
+                <p>
+                    <label for="id_nombre">Nombre</label>
+                    <input type="text" name="nombre" required="True" id="id_nombre" maxlength="70"
+                        value="{{ invitado.nombre }}" style="width: 400px;background-color:transparent; color: green;">
+                </p>
+                <p>
+                    <label for="id_mensaje">Mensaje Personalizado</label>
+                    <input type="text" name="mensaje" id="id_mensaje" maxlength="200"
+                        value="{{ invitado.mensaje }}" style="width: 400px;background-color:transparent; color: green;" >
+                </p>
+                <p>
+                    <label for="id_evento">Evento</label>
+                    <input type="hidden" name="idEvento" required="True" id="id_evento"
+                        value="{{ invitado.idEvento.idEvento }}" >
+                    <input type="text" name="NombreEvento" required="True" id="id_evento"
+                        value="{{ invitado.idEvento.descripcion }}" style="width: 410px;background-color:transparent;color: grey;" readonly>
+                </p>
+                <p>
+                    <label for="id_hora">Hora de ingreso:</label>
+                    <input type="text" name="hora_ingreso" id="id_hora"
+                        value="{{ invitado.hora_ingreso|date:'H:i:s' }}" style="width: 340px;background-color:transparent;color: grey;" readonly>
+                </p>
+                <p>
+                    <label for="id_ingreso">Ingresó:</label>
+                    
+                    <!--<input type="checkbox" name="ingreso" id="id_ingreso" checked="">-->
+                    <select name="ingreso" id="id_ingreso" class="form-control">
+                        {% if invitado.ingreso %}
+                        <option value="True" selected >SI</option>
+                        <option value="False" >NO</option>
+                        {% else %}
+                        <option value="True" >SI</option>
+                        <option value="False" selected >NO</option>
+                        {% endif %}
+                    </select>
+                </p>
+                
+            </div>
+            <div class="label-btn">
+                <input type="submit" value="{{ tipo }}" class="btn" >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

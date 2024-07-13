@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="cotiza_celu">
+            <h1>{{Evento.nombre}}</h1>
+            {% for label, value in producto.get_fields %}
+            <p>{{label | upper}}</p> <input type="{{ input_type }}" value="{{value}}">
+            {% endfor %}
+            <a href="{% url 'evento:all' %}">BACK</a>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

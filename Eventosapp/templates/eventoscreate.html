@@ -1,0 +1,60 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+   
+<div class="card">
+    <div class="card-header">
+        <h4  style="text-align: center;">{{ Titulo }}</h4>
+    </div>
+    <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!--{{form.as_p}}-->
+            <!-- Usa form.erros para detectar el error en los campos -->
+            <!--{{ form.errors }}-->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="label-input">
+                <p>
+                    <label for="id_nombre">Nombre</label>
+                    <input type="text" name="descripcion" required="True" id="id_nombre" maxlength="70"
+                        style="width: 400px;">
+                </p>
+                <p>
+                    <label for="id_hora">Lugar del Evento:</label>
+                    <input type="text" name="lugar" id="id_hora" style="width: 300px;">
+                </p>
+                <p>
+                    <label for="id_evento">Fecha del Evento:</label>
+
+                    <input type="datetime" name="fechaInicio" id="id_evento" style="width: 150px"
+                    placeholder="aaaa-mm-dd hh:mm">
+                </p>
+                <p>
+                    <label for="video">Video del Evento:</label>
+                    {{ form.video.errors }}
+                    <input type="file" name="video" id="video" style="width: auto" accept="video/mp4"
+                    placeholder="suba el video del evento">
+                </p>
+                <p>
+                    <label for="imagen">Fondo de la tarjeta:</label>
+                    {{ form.imagen.errors }}
+                    <input type="file" name="imagen" id="imagen" style="width: auto" accept="image/jpeg"
+                    placeholder="suba la imagen de fondo de la tarjeta">
+                </p>
+                <p>
+                    <label for="id_ingreso">Activo:</label>
+                    <input type="checkbox" name="activo" id="id_ingreso" checked>
+                </p>
+            </div>
+            <div class="label-btn">
+                <input type="submit" value="{{ tipo }}" class="btn" >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

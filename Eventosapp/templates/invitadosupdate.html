@@ -1,0 +1,90 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+   
+<div class="-body">
+    <h1>Lista de Invitados</h1>
+    <form class="card-body" method="POST" action="{% url 'eventos:invitados_update' %}">    {% csrf_token %}
+        <p>
+            <select name="eventoupdate" class="form-control" required>
+              {% for evento in evento_list %}
+              <option value="{{ evento.idEvento }}">{{ evento.descripcion }}</option>
+              {% endfor %}
+            </select>
+        </p>
+        <div class="label-btn">
+          <input type="submit" value="Buscar" class="btn" style="height: 40px;" />
+        </div>
+    </form>
+    {% if evento %}
+        <div class="card">
+            
+        <table>
+            {% for evento in evento %}
+            <div class="card">
+                <h3>{{ evento.descripcion }}</h3>
+            </div>
+            <div>
+                <form method="POST" action="{% url 'eventos:etiquetas' evento.idEvento %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Ver Tarjetas</button>
+                </form>
+                <form method="POST" action="{% url 'eventos:invitado_create' evento.idEvento %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="evento_id" value="{{ evento.idEvento }}">
+                    <button type="submit" class="btn">Nuevo invitado</button>
+                </form>
+            </div>
+            {% endfor %}
+            
+            {% if invitados %}
+            
+                <thead>
+                    <tr>
+                        <th>EVENTO</th>
+                        <th>NOMBRE</th>
+                        <th>MENSAJE PERSONALIZADO</th>
+                        <th>INGRESO</th>
+                        <th>HORA DE INGRESO</th>
+                        <th>QR CODE</th>
+                        <th>EDICION</th>
+                        <th>TARJETA</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    {% for invitado in invitados %}
+                    <tr>
+                        <td>{{ invitado.idEvento.descripcion }}</td>
+                        <td>{{ invitado.nombre }}</td>
+                        <td>{{ invitado.mensaje }}</td>
+                        {% if invitado.ingreso %}
+                            <td class="verde-negrita">SI</td>
+                        {% else %}
+                            <td class="rojo-negrita">NO</td>
+                        {% endif %}
+                        <td>{{ invitado.hora_ingreso|date:'H:i:s' }}</td>
+                        <td><img src="{% static 'media/img/' %}{{ invitado.qr }}" width="70px" alt="QR Code"></td>
+                        <td>
+                            <form method="POST" action="{% url 'eventos:invitado_update' invitado.idInvitado %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn">Editar</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST" action="{% url 'eventos:etiquetas_individuales' invitado.idEvento.idEvento invitado.idInvitado %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn">Tarjeta</button>
+                            </form>
+                        </td>
+                    <tr>
+                    {% endfor %}                
+                </tbody>
+            {% endif %}    
+    
+        </table>
+        </div>
+    {% endif %}
+</div>    
+
+{% endblock %}

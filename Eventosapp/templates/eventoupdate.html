@@ -1,0 +1,71 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+   
+<div class="card">
+    <div class="card-header">
+        <h4 style="text-align: center;">{{ Titulo }}</h4>
+    </div>
+    <div class="card-body">
+
+        <form action="{{ evento.idEvento }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!--{{form.as_p}}-->
+            <!-- Usa form.erros para detectar el error en los campos -->
+            <!--{{ form.errors }}-->
+            <div class="label-input">
+                <p>
+                    <label for="id_nombre">Nombre</label>
+                    <input type="text" name="descripcion" required="True" id="id_nombre" maxlength="70"
+                        value="{{ evento.descripcion }}"   style="width: 400px;">
+                </p>
+                <p>
+                    <label for="id_hora">Lugar del Evento:</label>
+                    <input type="text" name="lugar" id="id_hora" value="{{evento.lugar}}" style="width: 100px;">
+                </p>
+                <p>
+                    <label for="id_evento">Fecha del Evento:</label>
+                    <!--{{ form.fechaInicio }}--> <!-- Usar el widget DateInput -->
+                    <!--{{ form.fechaInicio.errors }}--> <!-- Mostrar errores específicos -->
+
+                    <input type="datetime" name="fechaInicio" id="id_evento" value="{{evento.fechaInicio|date:'Y-m-d h:i:s'}}" style="width: 200px">
+                </p>
+                <p>
+                
+                    <label for="video">Video del Evento:</label>
+                    {{ form.video.errors }}
+                        <input type="file" name="video" id="video" accept="video/mp4"
+                        value="{{evento.video.url}}">
+                    {% if evento.video %}
+                   <td>
+                        <video class="miniatura" controls>
+                        <source src="{{ evento.video.url }}" type="video/mp4">
+                        Tu navegador no soporta video HTML5
+                        </video>
+                    </td>
+                    {% else %}
+                        <td>No hay video</td>
+                    {% endif %}
+                </p>
+                <p>
+                    <label for="imagen">Fondo de la tarjeta:</label>
+                    {{ form.imagen.errors }}
+                    <input type="file" name="imagen" id="imagen" accept="image/jpeg">
+                    {% if evento.imagen %}
+                        <td><img src="{{ evento.imagen.url }}" width="120px"></td>
+                    {% else %}
+                    <td>No hay imagen</td>
+                    {% endif %}
+                </p>
+                <p>
+                    <label for="id_ingreso">Activo:</label>
+                    <input type="checkbox" name="activo" id="id_ingreso" checked>
+                </p>
+            </div>
+            <div class="label-btn">
+                <input type="submit" value="{{ tipo }}" class="btn" >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

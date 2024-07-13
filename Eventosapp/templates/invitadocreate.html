@@ -1,0 +1,40 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+   
+<div class="card">
+    <div class="card-header">
+        <h4  style="text-align: center;">NUEVO INVITADO</h4>
+    </div>
+    <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!--{{form.as_p}}-->
+            <!-- Usa form.erros para detectar el error en los campos -->
+            <!--{{ form.errors }}-->
+            <div class="label-input">
+                <p>
+                    <label for="id_evento">Evento:</label>
+                    <input type="hidden" name="idEvento" value="{{ evento_id }}">
+                    <input type="text" name="evento_descripcion" value="{{ evento }}" style="width: auto;"  readonly>
+                </p>
+                <p>
+                    <label for="id_nombre">Nombre</label>
+                    <input type="text" name="nombre" required="True" id="id_nombre" maxlength="70"
+                        style="width: 400px;">
+                </p>
+                <p>
+                    <label for="id_mensaje">Mensaje Personalizado</label>
+                    <input type="text" name="mensaje" id="id_mensaje" maxlength="70"
+                        style="width: 400px;" value="">
+                </p>
+                
+            </div>
+            <div class="label-btn">
+                <input type="submit" value="{{ tipo }}" class="btn" >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base_template.html' %}
+{% block content %}
+
+<main>
+    <div class="container">
+        <h1>LISTA DE EVENTOS</h1>
+        <form method="POST" action="{% url 'eventos:evento_create'%}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Nuevo Evento</button>
+        </form>
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">EVENTO</th>
+                    <th scope="col">LUGAR</th>
+                    <th scope="col">FECHA</th>
+                    <th scope="col">ACTIVO</th>
+                    <th scope="col">VIDEO</th>
+                    <th scope="col">FONDO DE TARJETA</th>
+                    <th scope="col">EDICION</th>
+                    <th scope="col">INVITADOS PDF</th>
+                    <th scope="col">TARJETAS</th>
+                </tr>
+            </thead>
+            <ul>
+            {% for evento in eventos %}
+            <tbody>
+                <td scope="row">{{evento.idEvento}}</td>
+                <td>{{evento.descripcion}}</td>
+                <td>{{evento.lugar}}</td>
+                <td>{{evento.fechaInicio | date:"d/m/Y H:i"}}</td>
+                {% if  evento.activo %}
+                    <td style="color: green">SI</td>
+                {% else %}
+                    <td  style="color: red">NO</td>
+                {% endif %}
+                {% if evento.video %}
+                    <td>
+                        <video class="miniatura" controls>
+                        <source src="{{ evento.video.url }}" type="video/mp4">
+                        Tu navegador no soporta video HTML5
+                        </video>
+                    </td>
+                {% else %}
+                    <td>No hay video</td>
+                {% endif %}
+                {% if evento.imagen %}
+                    <td><img src="{{ evento.imagen.url }}" width="120px"></td>
+                {% else %}
+                    <td>No hay imagen</td>
+                {% endif %}
+                <td>
+                    <form method="POST" action="{% url 'eventos:evento_update' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Editar</button>
+                    </form>
+                </td>
+                <!--
+                <td>
+                    <form method="POST" action="{% url 'eventos:exportar_invitados' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Exportar lista</button>
+                    </form>
+                </td>
+                -->
+                <td>
+                    <form method="POST" action="{% url 'eventos:lista_pdf' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">lista en PDF</button>
+                    </form>
+                </td>
+                <!--
+                <td>
+                    <form method="POST" action="{% url 'eventos:exportar_qrinvitados' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Exportar QR</button>
+                    </form>
+                </td>
+                -->
+                <td>
+                    <form method="POST" action="{% url 'eventos:etiquetas' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Tarjetas</button>
+                    </form>
+                </td>
+            {% empty %}
+                <li>No hay eventos para mostrar.</li>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</main>
+
+{% endblock %}

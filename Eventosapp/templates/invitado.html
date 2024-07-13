@@ -1,0 +1,21 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+<div class="-body">
+    
+    <form class="card-body" method="POST" action="{% url 'eventos:invitados' %}">    
+      {% csrf_token %}
+        <p>
+            <select name="evento" class="form-control" required>
+              {% for evento in evento_list %}
+              <option value="{{ evento.idEvento }}">{{ evento.descripcion }}</option>
+              {% endfor %}
+            </select>
+        </p>
+        <div class="label-btn">
+          <input type="submit" value="Buscar" class="btn btn-success" style="height: 40px;" />
+        </div>
+        
+    </form>
+  </div>
+{% endblock %}
