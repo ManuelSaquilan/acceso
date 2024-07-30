@@ -20,7 +20,9 @@
                     <th scope="col">FONDO DE TARJETA</th>
                     <th scope="col">EDICION</th>
                     <th scope="col">INVITADOS PDF</th>
+                    <th scope="col">INVITADOS PDF C/MSJ</th>
                     <th scope="col">TARJETAS</th>
+                    <th scope="col">TARJETAS c/MSJ</th>
                 </tr>
             </thead>
             <ul>
@@ -70,6 +72,12 @@
                         <button type="submit" class="btn">lista en PDF</button>
                     </form>
                 </td>
+                <td>
+                    <form method="POST" action="{% url 'eventos:lista_pdf_mensaje' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">lista en PDF c/Mensaje</button>
+                    </form>
+                </td>
                 <!--
                 <td>
                     <form method="POST" action="{% url 'eventos:exportar_qrinvitados' evento.idEvento %}">
@@ -82,6 +90,12 @@
                     <form method="POST" action="{% url 'eventos:etiquetas' evento.idEvento %}">
                         {% csrf_token %}
                         <button type="submit" class="btn">Tarjetas</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'eventos:etiquetas_msj' evento.idEvento %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Tarjetas c/msj</button>
                     </form>
                 </td>
             {% empty %}

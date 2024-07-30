@@ -1,0 +1,83 @@
+{% extends "base_template.html" %}
+{% block content %}
+{% load static %}
+<head>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  </head>
+<div class="contenedor">
+    {% if invitados %}
+    <button onclick="convertirEnImagen()" class="btn">Bajar las tarjetas</button>  
+        {% for invitado in invitados %}
+            <div class="tarjeta">
+                <div class="tarjetaFrente" id="miDiv" style="background-image: url('{{ ruta }}')">
+                    <div class="tarjetaFrente-contenido">
+                        <section class="grid-container-mensaje">
+                            <div class="item1">
+                                <p class="evento">{{ invitado.idEvento.descripcion }}</p>
+                            </div>
+                            <div class="item2">
+                                <p class="lugar">Lugar: {{ invitado.idEvento.lugar }}</p>
+                            </div>
+                            <div class="item3">
+                                <p class="fecha">{{ invitado.idEvento.fechaInicio | date:"d/m/Y H:i"}} hs</p>
+                            </div>
+                            <div class="item4">
+                                <p class="nombre">{{ invitado.nombre }}</p>
+                            </div>
+                            <div class="item6">
+                                <p class="mensaje">{{ invitado.mensaje }}</p>
+                            </div>
+                            <div class="item5">
+                                <p class="qr"><img src="{% static 'media/img/' %}{{ invitado.qr }}" width="120px" alt="QR Code"></p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="tarjetaAtras">
+                    <section >
+                        <div class="item1">
+                            <p class="evento">{{ invitado.idEvento.descripcion }}</p>
+                        </div>
+                        <div class="item2">
+                            <p class="lugar">Lugar: {{ invitado.idEvento.lugar }}</p>
+                        </div>
+                        <div class="item3">
+                            <p class="fecha">{{ invitado.idEvento.fechaInicio | date:"d/m/Y H:i"}} hs</p>
+                        </div>
+                        <div class="derechos">
+                            <p>@2024  - Derechos Reservados - SSCOM INFORMATICA</p>
+                        </div>
+                    </section>
+                </div>
+            </div>   
+        {% endfor %}                
+    {% endif %}
+</div>
+<script>
+    function convertirEnImagen() {
+      let divs = document.querySelectorAll("#miDiv");
+      let zip = new JSZip();
+      let promesas = [];
+
+      for (let i = 0; i < divs.length; i++) {
+        promesas.push(new Promise((resolve, reject) => {
+          html2canvas(divs[i]).then(canvas => {
+            let imagen = canvas.toDataURL("image/jpeg");
+            zip.file("Tarjeta" + i + ".jpg", imagen.substr(imagen.indexOf(',') + 1), { base64: true });
+            resolve();
+          });
+        }));
+      }
+
+      Promise.all(promesas).then(() => {
+        zip.generateAsync({ type: "blob" }).then(blob => {
+          let enlace = document.createElement("a");
+          enlace.href = URL.createObjectURL(blob);
+          enlace.download = "tarjetas.zip";
+          enlace.click();
+        });
+      });
+    }
+  </script>
+{% endblock %}

@@ -308,6 +308,15 @@ def etiquetas(request, pk):
         ruta = "/static/media/"+ str(evento.imagen)
     print(ruta)
     return render(request, 'etiquetas.html', {'invitados': invitados,'ruta':ruta})
+
+def etiquetas_msj(request, pk):
+    invitados = Invitados.objects.filter(idEvento=pk)
+    eventos = Evento.objects.filter(idEvento=pk)
+    #ruta = "/static/media/img/"+str(pk)+".jpeg"
+    for evento in eventos:
+        ruta = "/static/media/"+ str(evento.imagen)
+    print(ruta)
+    return render(request, 'etiquetas_mensaje.html', {'invitados': invitados,'ruta':ruta})
     
 def etiquetas_individuales(request, pk1, pk2):
     invitado = Invitados.objects.filter(idEvento=pk1,idInvitado=pk2)
@@ -372,3 +381,54 @@ def lista_pdf(request, pk):
     #return redirect("eventos:evento_all")
 
     #return HttpResponse(buffer.getvalue(), content_type='application/pdf')
+
+def lista_pdf_mensaje(request, pk):
+    # Obtener los invitados del evento seleccionado
+    invitados = Invitados.objects.filter(idEvento=pk)
+    evento = Evento.objects.filter(idEvento=pk)
+    print("evento:",evento)
+    # Crear un buffer para el PDF
+    buffer = BytesIO()
+
+    # Crear un objeto canvas para dibujar el PDF
+    c = canvas.Canvas(buffer, pagesize=A4)
+
+    # Configurar la fuente y el tamaño de letra
+    c.setFont("Helvetica", 18)
+    c.setFillColor(aColor='blue')
+
+    # Coloca el nombre del evento
+    x_titulo = 10 * cm
+    y_titulo = 28 * cm
+    for nombre_evento in evento:
+        c.drawCentredString(x_titulo, y_titulo, f"{nombre_evento.descripcion}")
+
+    # Configurar la fuente y el tamaño de letra
+    c.setFont("Helvetica", 12)
+    c.setFillColor(aColor='black')
+
+    # Iterar sobre los invitados y dibujar la información
+    x_nombre = 2.54 * cm
+    x_qr = x_nombre + 13 * cm
+    y = 23.4 * cm
+
+    for invitado in invitados:
+        c.drawString(x_nombre, y + 2 *cm, f"{invitado.nombre}")
+        c.drawString(x_nombre, y + 1.5 *cm, f"{invitado.mensaje}")
+        c.drawImage(invitado.qr.path, x_qr, y, width=100, height=100)
+        
+        # Dibujar una línea
+        c.line(x_nombre, y, x_qr + 100, y)
+
+        y -= 4 * cm
+        
+    # Guardar el PDF
+    c.save()
+
+    # Devolver el PDF como respuesta
+    buffer.seek(0)
+    # Enviar el archivo PDF como respuesta HTTP
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="lista_invitados_mensaje.pdf"'
+
+    return response 

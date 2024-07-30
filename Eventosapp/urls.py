@@ -12,9 +12,11 @@ from .views import      EventoListView\
                     ,   exportar_invitados\
                     ,   exportar_qrs\
                     ,   etiquetas\
+                    ,   etiquetas_msj\
                     ,   invitado_updaterecord\
                     ,   etiquetas_individuales\
                     ,   lista_pdf\
+                    ,   lista_pdf_mensaje\
                     #,   Evento_Update\
 
 app_name = "eventos"
@@ -33,7 +35,9 @@ urlpatterns = [
     path('invitados/exportar/<int:pk>', exportar_invitados, name='exportar_invitados'),
     path('invitados/exportarqr/<int:pk>', exportar_qrs, name='exportar_qrinvitados'),
     path('etiquetas/<int:pk>',etiquetas,name='etiquetas'),
+    path('etiquetas_msj/<int:pk>',etiquetas_msj,name='etiquetas_msj'),
     path('etiquetas_individuales/<int:pk1>/<int:pk2>',etiquetas_individuales,name='etiquetas_individuales'),
     path('invitado_updaterecord/<int:pk>', invitado_updaterecord, name='invitado_updaterecord'),
     path('lista/<int:pk>',lista_pdf,name='lista_pdf'),
+    path('lista_mensaje/<int:pk>',lista_pdf_mensaje,name='lista_pdf_mensaje'),
 ]

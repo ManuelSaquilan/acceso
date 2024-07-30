@@ -303,7 +303,7 @@ td{
     
 }
 
-.evento, .lugar, .fecha, .nombre{
+.evento, .lugar, .fecha, .nombre, .mensaje{
     width: auto;
     height: auto;
     /*box-shadow: 1px 1px 10px  rgba(0,0,0,.3),0px 1px 10px  rgba(0,0,0,.3),1px 0px 10px  rgba(0,0,0,.3);*/
@@ -318,6 +318,17 @@ td{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:    "evento evento evento"
                             "qr nombre nombre"
+                            "qr lugar lugar"
+                            "qr fecha fecha";
+}
+
+.grid-container-mensaje{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:    "evento evento evento"
+                            "qr nombre nombre"
+                            "qr mensaje mensaje"
                             "qr lugar lugar"
                             "qr fecha fecha";
 }
@@ -349,6 +360,11 @@ td{
     padding-left: 20px;
 }
 
+/* Clase Mensaje */
+.item6{
+    grid-area: mensaje;
+}
+
 .derechos{
     grid-area: fecha;
     width:70%;
@@ -372,18 +388,22 @@ td{
 
 
 .evento{
-    margin: 10px 0 0 0;
+    margin: 5px 0 0 0;
 }
 .lugar{
-    margin: 15px 0 0 0;
+    margin: 2px 0 0 0;
 }
 
 .fecha{
-    margin: 5px 0 0 0;
+    margin: 2px 0 0 0;
 }
 
 .nombre{
-    margin: 20px 0 0 0;
+    margin: 2px 0 0 0;
+}
+
+.mensaje{
+    margin: 1px 0 0 0;
 }
 
 .card-body{
