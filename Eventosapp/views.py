@@ -432,3 +432,4 @@ def lista_pdf_mensaje(request, pk):
     response['Content-Disposition'] = 'attachment; filename="lista_invitados_mensaje.pdf"'
 
     return response 
+

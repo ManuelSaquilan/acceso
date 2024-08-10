@@ -31,18 +31,15 @@
                     <input type="datetime" name="fechaInicio" id="id_evento" value="{{evento.fechaInicio|date:'Y-m-d h:i:s'}}" style="width: 200px">
                 </p>
                 <p>
-                
                     <label for="video">Video del Evento:</label>
-                    {{ form.video.errors }}
-                        <input type="file" name="video" id="video" accept="video/mp4"
-                        value="{{evento.video.url}}">
+                    
                     {% if evento.video %}
-                   <td>
-                        <video class="miniatura" controls>
-                        <source src="{{ evento.video.url }}" type="video/mp4">
-                        Tu navegador no soporta video HTML5
-                        </video>
-                    </td>
+                        <td>
+                            <video class="miniatura" controls>
+                            <source src="{{ evento.video.url }}" type="video/mp4">
+                            Tu navegador no soporta video HTML5
+                            </video>
+                        </td>
                     {% else %}
                         <td>No hay video</td>
                     {% endif %}

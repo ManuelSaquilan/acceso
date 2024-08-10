@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color:beige;
+    background-color:white;
 }
 
 .-body{
@@ -285,9 +285,6 @@ td{
     z-index: 0; /* Asegura que el fondo esté debajo del contenido */
 }
 
-.tarjetaAtras {
-    background-color: rgb(163, 213, 236);
-}
 
 .contenedor {
     display: flex;
@@ -420,3 +417,7 @@ td{
     font-weight: bold;
 }
 
+@media print{
+    .navbar{display: none !important;}
+    .btn{display: none !important;}
+}

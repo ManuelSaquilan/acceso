@@ -26,7 +26,11 @@
                                 <p class="nombre">{{ invitado.nombre }}</p>
                             </div>
                             <div class="item6">
+                                {% if invitado.mensaje %}
                                 <p class="mensaje">{{ invitado.mensaje }}</p>
+                                {% else %}
+                                    <p class="mensaje"></p>
+                                {% endif %}
                             </div>
                             <div class="item5">
                                 <p class="qr"><img src="{% static 'media/img/' %}{{ invitado.qr }}" width="120px" alt="QR Code"></p>
@@ -42,11 +46,14 @@
                         <div class="item2">
                             <p class="lugar">Lugar: {{ invitado.idEvento.lugar }}</p>
                         </div>
+                        <div class="item2">
+                            <p class="fecha">ID Tarjeta {{ invitado.idInvitado }}</p>
+                        </div>
                         <div class="item3">
-                            <p class="fecha">{{ invitado.idEvento.fechaInicio | date:"d/m/Y H:i"}} hs</p>
+                            <p>Apellido y Nombre</p>
                         </div>
                         <div class="derechos">
-                            <p>@2024  - Derechos Reservados - SSCOM INFORMATICA</p>
+                            <p>Nro. Celular</p>
                         </div>
                     </section>
                 </div>
